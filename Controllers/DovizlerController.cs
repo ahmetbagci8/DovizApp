@@ -58,6 +58,7 @@ namespace DovizApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Buy,Sell,Date")] Doviz doviz)
         {
+            doviz.Date = DateTime.Now;
             if (ModelState.IsValid)
             {
                 _context.Add(doviz);
@@ -79,18 +80,18 @@ namespace DovizApp.Controllers
         public async Task<IActionResult> CreateAuto(Doviz doviz)
         {
             WebClient client = new WebClient();
-            String downloadedString = client.DownloadString("https://api.canlidoviz.com/web/items?marketId=1&type=0");
+            String downloadedString = client.DownloadString("https://kur.doviz.com/serbest-piyasa/amerikan-dolari");
             char[] seps = { ' ', ',', ':', '"' };
             string[] data = downloadedString.Split(seps);
             int i = 0;
-            while (data[i] != "buyPrice")
+            while (data[i] != "selling")
             {
                 i++;
             }
             i++;
             i++;
             doviz.Buy=float.Parse(data[i], System.Globalization.CultureInfo.InvariantCulture);
-            while (data[i] != "sellPrice")
+            while (data[i] != "buying")
             {
                 i++;
             }
@@ -138,7 +139,7 @@ namespace DovizApp.Controllers
             {
                 return NotFound();
             }
-
+           
             if (ModelState.IsValid)
             {
                 try
