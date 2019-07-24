@@ -89,16 +89,18 @@ namespace DovizApp.Controllers
             }
             i++;
             i++;
-            doviz.Buy = (float)Convert.ToDouble(data[i]);
+            doviz.Buy=float.Parse(data[i], System.Globalization.CultureInfo.InvariantCulture);
             while (data[i] != "sellPrice")
             {
                 i++;
             }
             i++;
             i++;
-            doviz.Sell = (float)Convert.ToDouble(data[i]);
-            doviz.Date = DateTime.Now;
 
+
+            doviz.Sell = float.Parse(data[i], System.Globalization.CultureInfo.InvariantCulture);
+
+            doviz.Date = DateTime.Now;
 
             if (ModelState.IsValid)                             
             {
